@@ -6,7 +6,7 @@ def ping_ip(ip_address) -> bool:
     # '1' is the amount of packages
     command = ['ping', parameters, '1', ip_address]
     try:
-        subprocess.check_output(command, timeout=0.1)
+        subprocess.check_output(command, timeout=0.2)
         #print(output.decode())
         return True
     # If the time runs out or an error occurs than returns false (unreacheble)
@@ -51,9 +51,9 @@ def main() -> None:
 
     # Creating and writing the IPs in the result file
     with open(f'result_scan/{file_name}.txt', 'w', encoding='utf-8') as file:
-        file.write('- HOSTS ON -')
+        file.write('- HOSTS ON -\n')
         for host in all_hosts_on:
-            file.write(f'\n{host}')
+            file.write(f'{host}\n')
 
     print('\n[+] Finished successfully\n')
 
