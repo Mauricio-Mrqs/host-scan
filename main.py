@@ -1,4 +1,5 @@
-import os, subprocess, ipaddress, datetime
+import os, subprocess, ipaddress
+from datetime import datetime
 
 def ping_ip(ip_address) -> bool:
     # If the OS is windows than the parameter will be "-n" else will be "-c"
@@ -19,24 +20,25 @@ def create_directory() -> None: # creating directory for the ip files
     try:
         os.mkdir('result_scan')
     except FileExistsError:
-        print()
+        pass
     except Exception as e:
         print(f'[-] An error occurred: {e}')
 
 def main() -> None:
     # Creating an object of type IPv4 and Defining the list of all hosts 
-    try:
-        network = input('Type here the network [ex: 0.0.0.0/24] : ')
-        all_hosts = list(ipaddress.ip_network(network).hosts())
-    except Exception as e:
-        print(f'\n[-] An error occurred: {e}\n')
-        network = input('Try again: ')
-        all_hosts = list(ipaddress.ip_network(network).hosts())
+    while True:
+        try:
+            network = input('Type here the network [ex: 0.0.0.0/24] : ')
+            all_hosts = list(ipaddress.ip_network(network).hosts())
+        except Exception as e:
+            print(f'\n[-] An error occurred: {e}\n')
+        else:
+            break
 
     all_hosts_on: list = []
     offline_hosts: int = 0
     online_hosts: int = 0
-    file_name: str = str(datetime.datetime.now())
+    file_name: str = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
     for host in all_hosts:
         if ping_ip(str(host)):
